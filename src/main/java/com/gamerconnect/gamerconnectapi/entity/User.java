@@ -1,18 +1,17 @@
-package com.gamerconnect.gamerconnectapi.account.entity;
+package com.gamerconnect.gamerconnectapi.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class User {
 
@@ -21,10 +20,10 @@ public class User {
     @Column(name = "id")
     private UUID id;
 
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = "username")
     private String username;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email")
     private String email;
 
     @Column(name = "bio")
@@ -32,5 +31,4 @@ public class User {
 
     @Column(name = "created_at")
     private Timestamp createdAt;
-
 }

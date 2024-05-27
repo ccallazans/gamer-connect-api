@@ -5,13 +5,13 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=gamer-connect #optional (specify default database instead of $POSTGRES_DB)
+      - POSTGRES_DB=gconnect
     ports:
       - "5432:5432"
     volumes:
-      - gamer-connect-db:/var/lib/postgresql/data
+      - gconnect-db:/var/lib/postgresql/data
     restart: always
 
 volumes:
-  gamer-connect-db:
+  gconnect-db:
     driver: local
