@@ -1,18 +1,17 @@
 package com.gamerconnect.gamerconnectapi.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -37,7 +36,7 @@ public class User {
     )
     private Set<Game> games;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

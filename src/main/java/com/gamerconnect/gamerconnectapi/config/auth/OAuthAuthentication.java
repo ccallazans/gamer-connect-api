@@ -3,7 +3,6 @@ package com.gamerconnect.gamerconnectapi.config.auth;
 import com.gamerconnect.gamerconnectapi.repository.UserRepository;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -26,11 +25,9 @@ public class OAuthAuthentication implements Converter<Jwt, AbstractAuthenticatio
 
         var user = userRepository.findByEmail(email);
         if (user.isPresent()) {
-            var updatedAuthorities = new ArrayList<GrantedAuthority>();
-            var newAuthority = new SimpleGrantedAuthority("USER");
-            updatedAuthorities.add(newAuthority);
-
-            return new JwtAuthenticationToken(jwt, updatedAuthorities);
+            var authorities = user.get().getRoles().stream().map(role ->
+                    new SimpleGrantedAuthority(role.getRoleName())).toList();
+            return new JwtAuthenticationToken(jwt, authorities);
         }
 
         return new JwtAuthenticationToken(jwt, new ArrayList<>());

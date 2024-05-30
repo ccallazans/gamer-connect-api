@@ -1,17 +1,17 @@
 package com.gamerconnect.gamerconnectapi.entity;
 
-import com.gamerconnect.gamerconnectapi.config.auth.RoleEnum;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
 import java.util.Set;
 
-
-@Entity
-@Table(name = "roles")
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "roles")
 public class Role {
 
     @Id

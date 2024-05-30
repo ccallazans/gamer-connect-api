@@ -1,7 +1,6 @@
 package com.gamerconnect.gamerconnectapi.services;
 
 import com.gamerconnect.gamerconnectapi.config.auth.RoleEnum;
-import com.gamerconnect.gamerconnectapi.entity.Role;
 import com.gamerconnect.gamerconnectapi.entity.User;
 import com.gamerconnect.gamerconnectapi.exceptions.BusinessException;
 import com.gamerconnect.gamerconnectapi.repository.RoleRepository;
@@ -10,8 +9,6 @@ import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -28,7 +25,7 @@ public class UserService {
     }
 
     public User createUser() {
-        var email =  authUserService.getEmailFromContext();
+        var email = authUserService.getEmailFromContext();
 
         var emailValidator = EmailValidator.getInstance();
         if (!emailValidator.isValid(email)) {
