@@ -1,25 +1,25 @@
 package com.gamerconnect.gamerconnectapi.config;
 
-import com.gamerconnect.gamerconnectapi.config.auth.GoogleTokenIntrospector;
-import com.gamerconnect.gamerconnectapi.repository.UserRepository;
+import com.gamerconnect.gamerconnectapi.config.auth.OAuthAuthentication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
-    private final UserRepository userRepository;
+    private final OAuthAuthentication oAuthAuthentication;
 
-    public SecurityConfig(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public SecurityConfig(OAuthAuthentication oAuthAuthentication) {
+        this.oAuthAuthentication = oAuthAuthentication;
     }
 
     @Bean
@@ -28,17 +28,12 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers(HttpMethod.POST, "/users/").hasAuthority("GUEST")
-                        .anyRequest().hasAuthority("USER")
+                        .requestMatchers(HttpMethod.GET, "/users/open").permitAll()
+                        .anyRequest().authenticated()
                 )
-                .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer
-                        .opaqueToken(opaqueToken -> opaqueToken.introspector(introspector()))
-                ).sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        return http.build();
-    }
+                .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(oAuthAuthentication)));
 
-    @Bean
-    public OpaqueTokenIntrospector introspector() {
-        return new GoogleTokenIntrospector(userRepository);
+        return http.build();
     }
 }

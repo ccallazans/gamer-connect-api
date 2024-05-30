@@ -1,18 +1,30 @@
 package com.gamerconnect.gamerconnectapi.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.gamerconnect.gamerconnectapi.config.auth.RoleEnum;
+import jakarta.persistence.*;
+import lombok.*;
 
-import java.util.UUID;
+import java.util.HashSet;
+import java.util.Set;
 
+
+@Entity
+@Table(name = "roles")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Role {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private UUID id;
+    private Long id;
 
-    @Column(name = "role_name")
-    private String name;
+    private String roleName;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_roles",
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+            joinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> users;
 }

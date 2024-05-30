@@ -1,7 +1,5 @@
-package com.gamerconnect.gamerconnectapi.services;
+package com.gamerconnect.gamerconnectapi.exceptions;
 
-import com.gamerconnect.gamerconnectapi.exceptions.AuthenticationException;
-import com.gamerconnect.gamerconnectapi.exceptions.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
