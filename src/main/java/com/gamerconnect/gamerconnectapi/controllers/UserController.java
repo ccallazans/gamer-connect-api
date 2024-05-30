@@ -1,6 +1,6 @@
 package com.gamerconnect.gamerconnectapi.controllers;
 
-import com.gamerconnect.gamerconnectapi.controllers.dto.UserDTO;
+import com.gamerconnect.gamerconnectapi.controllers.dto.CreateUserResponse;
 import com.gamerconnect.gamerconnectapi.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
     private final UserService userService;
@@ -20,9 +20,9 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<UserDTO> createUser() {
+    public ResponseEntity<CreateUserResponse> createUser() {
         var user = userService.createUser();
-        return new ResponseEntity<>(UserDTO.from(user), HttpStatus.CREATED);
+        return new ResponseEntity<>(CreateUserResponse.from(user), HttpStatus.CREATED);
     }
 
     @GetMapping("/open")
