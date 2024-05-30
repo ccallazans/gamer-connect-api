@@ -19,13 +19,10 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @Column(nullable = false, length = 100)
     private String title;
 
-    @Column(nullable = false, columnDefinition = "text")
     private String description;
 
     private Integer capacity;
@@ -38,10 +35,8 @@ public class Group {
     @JoinColumn(name = "game_id")
     private Game game;
 
-    @Column(nullable = false, columnDefinition = "boolean default true")
-    private Boolean isPublic = true;
+    private Boolean isPublic;
 
-    @Column(name = "created_at", nullable = false, updatable = false, insertable = false, columnDefinition = "timestamp default current_timestamp")
     private LocalDateTime createdAt;
 
     @ManyToMany(mappedBy = "groups")

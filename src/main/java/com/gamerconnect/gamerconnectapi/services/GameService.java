@@ -5,6 +5,7 @@ import com.gamerconnect.gamerconnectapi.exceptions.NotFoundException;
 import com.gamerconnect.gamerconnectapi.repository.GameRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +25,28 @@ public class GameService {
                 .build();
 
         return gameRepository.save(game);
+    }
+
+    public Game updateGame(Long id, String title, String publisher, Long releaseYear) {
+        Game game = getGameById(id);
+
+        if (title != null && !title.trim().isEmpty()) {
+            game.setTitle(title);
+        }
+
+        if (publisher != null && !publisher.trim().isEmpty()) {
+            game.setPublisher(publisher);
+        }
+
+        if (releaseYear != null) {
+            game.setReleaseYear(releaseYear);
+        }
+
+        return gameRepository.save(game);
+    }
+
+    public List<Game> getAllGames() {
+        return gameRepository.findAll();
     }
 
     public Game getGameById(Long id) {
